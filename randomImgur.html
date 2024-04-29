@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Random imgur image</title>
+    <link href="uber_style.css" rel="stylesheet" >
+    <link rel="icon" href="./randomImgurFavicon.png"/>
+    <script language="javascript" type="text/javascript" src="script.js" ></script>
+
+<body>
+<div id="menu">
+    <button id="auto_refresh_button_on" href="#" class="btn" onclick="auto_refresh(true)" style="display: none;">Autorefresh</button>
+    <button id="auto_refresh_button_off" href="#" class="btn" onclick="auto_refresh(false)" style="display: initial;">Stoprefresh</button>
+    <button href="#" class="btn" onclick="increase_delay()">Increase delay</button>
+    <button href="#" class="btn" onclick="decrease_delay()">Decrease delay</button>
+    <button href="#" class="btn disabled" id="delay_value" ><span>Delay: 5000</span></button>
+    <button href="#" class="btn" onclick="increase_max_image()">Increase max images</button>
+    <button href="#" class="btn" onclick="decrease_max_image()">Decrease max images</button>
+    <button href="#" class="btn disabled" id="max_image_value" ><span>Max image: </span></button>
+</div>
+<h3 id="debug_text">Random Imgur image <span style="font-size: 12px" id="loading_text_span">Please wait... </span> </h3>
+<div id="img_container"></div>
+
+</body>
+</html>
