@@ -36,11 +36,7 @@ function getImages() {
             }
             aDiv.innerHTML += '.';
             numTries++;
-            this.src = "http://i.imgur.com/kqvX8.jpg"
-            // ////////////////////
-            // C'EST ICI REMY ICI
-            // ////////////////////
-            // this.src = "http://i.imgur.com/" + imageName + ".jpg"; // changing the src triggers the onload event and thus try next random (creating a recursive)
+            this.src = "http://i.imgur.com/" + imageName + ".jpg"; // changing the src triggers the onload event and thus try next random (creating a recursive)
         }
         else {
             var tested_values = ''
