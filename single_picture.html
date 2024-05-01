@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Random imgur image</title>
+    <link href="uber_style.css" rel="stylesheet" >
+    <link rel="icon" href="./randomImgurFavicon.png"/>
+    <script lang="javascript" type="text/javascript" src="build_dom.js"></script>
+    <style>
+        .img_previous_links {
+            max-height: 100%;
+            max-width: 100%;
+            border: none;
+        }
+        #close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-image: url(close.png);
+            background-repeat: no-repeat;
+            background-size: 150px;
+            width: 150px;
+            height: 150px;
+            opacity: 0.5;
+            
+        }
+        #close:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    </style>
+<body>
+
+    <div id="close"></div>
+
+<script>
+    // Function to get query parameters from URL
+    function getQueryParam(param) {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        return urlParams.get(param);
+    }
+
+    window.addEventListener('load', function() {
+        document.getElementById("close").addEventListener('click', () => {
+            window.close();
+        });
+
+        const img_name = getQueryParam('img');
+        if (img_name === undefined || img_name === "") {
+            console.log('This ain\'t gonn\' work lil\' buddy..');
+        }
+        var body = document.getElementsByTagName('body')[0];
+        body.appendChild(build_img("img_previous_links", img_name))
+
+    }
+    );
+
+    document.addEventListener('keyup', function(event) {
+        if (event.key === 'Escape' || event.keyCode === 27) {
+            window.close();
+        }
+    });
+
+
+</script></body>
+</html>

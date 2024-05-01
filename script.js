@@ -1,4 +1,8 @@
-var max_image = 4;
+var do_refresh = false;
+var intervals;
+var delay = 5000;
+var max_image = 25;
+var total_image = 0;
 var links = [];
 var html_links = [];
 function randomString(min, max) {
@@ -36,7 +40,7 @@ function getImages() {
             }
             aDiv.innerHTML += '.';
             numTries++;
-            this.src = "http://i.imgur.com/" + imageName + ".jpg"; // changing the src triggers the onload event and thus try next random (creating a recursive)
+            this.src = "http://i.imgur.com/" + imageName + ".jpg"; // changing the src triggers the onload event and thus try next random (creating a recursive) "bypassing" in a way the delay
         }
         else {
             var tested_values = ''
@@ -54,12 +58,13 @@ function getImages() {
             aDiv.innerHTML = tested_values
             var container = document.getElementById('img_container');
 
-            var container_innerHTML = "<a href='" + imgObject.src + "' class='previous_links a_previous_links'  target='_blank'><img class='previous_links img_previous_links' src=\"" + imgObject.src + "\" /></a><br class='previous_links'>";// <hr class='previous_links'>";
-            html_links.unshift(container_innerHTML);
-            if (html_links.length >= max_image) {
-                html_links = html_links.slice(0, max_image);
-            }
-            container.innerHTML = html_links.join('');
+            var img = build_img("img_previous_links", imgObject.src);
+            var a = build_a(imgObject.src, "", img);
+            set_handler_on_picture_click(a);
+            container.insertBefore(a, container.firstChild);
+            if (container.childElementCount > max_image) {
+                container.removeChild(container.lastChild)
+            };
         }
     };
 
@@ -68,15 +73,18 @@ function getImages() {
     imgObject.src = "http://i.imgur.com/" + imageName + ".jpg";
 }
 
-var do_refresh = false;
-var intervals;
-var delay = 5000;
-
 function init_images() {
     for (let a = 0; a < max_image; a++) {
         getImages()
     }
     auto_refresh(true)
+}
+
+function set_handler_on_picture_click(picture_link) {
+    picture_link.addEventListener('click', function(event) {
+        event.preventDefault();
+        window.open(`single_picture.html?img=${encodeURIComponent(picture_link.id)}`, '_blank');
+    });
 }
 
 function auto_refresh(refresh) {
@@ -124,6 +132,12 @@ function decrease_max_image() {
     document.getElementById('max_image_value').innerHTML = '<span>Max image: ' + max_image + '</span></button>';
 }
 window.addEventListener('load', function () {
+    document.getElementById('scrollToTopBtn').addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
     init_images()
     document.getElementById('max_image_value').innerHTML = '<span>Max image: ' + max_image + '</span></button>';
 })
@@ -140,5 +154,14 @@ document.addEventListener('keydown', function (event) {
         decrease_max_image();
     } else {
         console.log("key was " + event.keyCode)
+    }
+});
+
+window.addEventListener('scroll', function() {
+    var scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    if (window.scrollY > 100) {
+        scrollToTopBtn.classList.add('active');
+    } else {
+        scrollToTopBtn.classList.remove('active');
     }
 });
