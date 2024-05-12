@@ -1,0 +1,65 @@
+
+.scroll-to-top-btn {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    display: none;
+}
+
+.scroll-to-btm-btn {
+    display: none;
+}
+
+.scroll-to-top-btn:hover:before {
+    background: rgba(255, 255, 255, .1);
+}
+
+.scroll-to-btm-btn:hover:before {
+    background: rgba(255, 255, 255, .1);
+}
+
+.scroll-to-top-btn:after, .scroll-to-top-btn:before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100px;
+    right: 0;
+    transition: all .3s;
+}
+
+.scroll-to-top-btn.active {
+    display: block;
+    cursor: pointer;
+}
+
+.scroll-to-btm-btn.active {
+    display: block;
+}
+
+
+.scroll-to-top-btn:hover:after {
+    opacity: 1;
+}
+
+.scroll-to-btm-btn:hover:after {
+    opacity: 1;
+}
+
+.scroll-to-top-btn:after {
+    background: url(ttop.svg) no-repeat;
+    width: 64px;
+    height: 64px;
+    bottom: 10px;
+    right: 12px;
+    opacity: .3;
+    transition: bottom .3s;
+}
+
+.scroll-to-btm-btn::after {
+    background-image: url(ttop.svg);
+    background-repeat: no-repeat;
+    transform: rotate(180deg);
+}

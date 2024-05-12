@@ -1,33 +1,13 @@
-var do_refresh = false;
-var intervals;
-var delay = 5000;
-var max_image = 25;
-var total_image = 0;
-var links = [];
-var html_links = [];
-function randomString(min, max) {
-    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz";
-    var output = "";
-    var index;
-
-    while (true) {
-        string_length = Math.floor(Math.random() * (max - min + 1) + min);
-        if (string_length != 6) {
-            break;
-        }
-    }
-    for (var i = 0; i < string_length; i++) {
-        var index = Math.floor(Math.random() * chars.length);
-        output += chars.substring(index, index + 1);
-    }
-    return output;
-}
+let do_refresh = false;
+let intervals;
+let delay = 5000;
+let memory_limit_max_image = 50;
+let max_image = 25;
 
 function getImages() {
-    var numTries = 1;
-    var imgObject = new Image();
-    var max_image_height = window.innerHeight - 66;
-    var tested = [];
+    let numTries = 1;
+    let imgObject = new Image();
+    let tested = [];
     let imageName = randomString(5, 7);
     let aDiv = document.getElementById('loading_text_span');
     imgObject.onload = function () {
@@ -40,10 +20,10 @@ function getImages() {
             }
             aDiv.innerHTML += '.';
             numTries++;
-            this.src = "http://i.imgur.com/" + imageName + ".jpg"; // changing the src triggers the onload event and thus try next random (creating a recursive) "bypassing" in a way the delay
+            this.src = "http://i.imgur.com/" + imageName + ".jpg"; // changing the src triggers the onload event and thus try next random (creating a recursive) "bypassing", in a way, the delay
         }
         else {
-            var tested_values = ''
+            let tested_values = ''
             tested_values = "It took " + numTries + (numTries == 1 ? " try" : " tries") + " to get this picture. <a id=\"id_load_image\" href=\"javascript:getImages();\">Load new image </a>  Tested values: ";
             for (const i in tested) {
                 tested_values += tested[i];
@@ -55,14 +35,14 @@ function getImages() {
                     tested_values += ". ";
                 }
             }
-            aDiv.innerHTML = tested_values
-            var container = document.getElementById('img_container');
+            aDiv.innerHTML = tested_values;
+            let container = document.getElementById('img_container');
 
-            var img = build_img("img_previous_links", imgObject.src);
-            var a = build_a(imgObject.src, "", img);
+            let img = build_img("img_previous_links", imgObject.src);
+            let a = build_a(imgObject.src, "", img);
             set_handler_on_picture_click(a);
             container.insertBefore(a, container.firstChild);
-            if (container.childElementCount > max_image) {
+            while (container.childElementCount > max_image) {
                 container.removeChild(container.lastChild)
             };
         }
@@ -73,11 +53,11 @@ function getImages() {
     imgObject.src = "http://i.imgur.com/" + imageName + ".jpg";
 }
 
-function init_images() {
+function init_images(refresh) {
     for (let a = 0; a < max_image; a++) {
         getImages()
     }
-    auto_refresh(true)
+    auto_refresh(refresh);
 }
 
 function set_handler_on_picture_click(picture_link) {
@@ -93,9 +73,7 @@ function auto_refresh(refresh) {
         if (!intervals) {
             document.getElementById('auto_refresh_button_on').style.display = 'none';
             document.getElementById('auto_refresh_button_off').style.display = 'initial';
-            intervals = window.setInterval(function () {
-                getImages();
-            }, delay);
+            intervals = window.setInterval(function() {getImages()}, delay);
         }
     } else {
         document.getElementById('auto_refresh_button_on').style.display = 'initial';
@@ -122,46 +100,24 @@ function update_delay(d) {
     getImages();
 }
 
-function increase_max_image() {
-    max_image++;
-    document.getElementById('max_image_value').innerHTML = '<span>Max image: ' + max_image + '</span></button>';
-}
 
-function decrease_max_image() {
-    max_image = Math.max(1, max_image - 1);
-    document.getElementById('max_image_value').innerHTML = '<span>Max image: ' + max_image + '</span></button>';
-}
 window.addEventListener('load', function () {
-    document.getElementById('scrollToTopBtn').addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    init_images()
-    document.getElementById('max_image_value').innerHTML = '<span>Max image: ' + max_image + '</span></button>';
-})
-document.addEventListener('keydown', function (event) {
-    if (event.keyCode === 82) { // 82 est le code ASCII de la touche 'r'
-        window.clearInterval(intervals);
-        getImages();
-        auto_refresh(do_refresh);
-    } else if (event.keyCode === 83) { // 82 est le code ASCII de la touche 'r'
-        auto_refresh(!do_refresh);
-    } else if (event.key === '+') { // 82 est le code ASCII de la touche 'r'
-        increase_max_image();
-    } else if (event.key === '-') { // 82 est le code ASCII de la touche 'r'
-        decrease_max_image();
-    } else {
-        console.log("key was " + event.keyCode)
-    }
-});
+    init_document();
 
-window.addEventListener('scroll', function() {
-    var scrollToTopBtn = document.getElementById('scrollToTopBtn');
-    if (window.scrollY > 100) {
-        scrollToTopBtn.classList.add('active');
-    } else {
-        scrollToTopBtn.classList.remove('active');
+    do_refresh = true;
+    let test = getQueryParam("test");
+    if (test) {
+        max_image = 3;
+        auto_refresh(false);
     }
-});
+
+    let max_image_span = this.document.createElement('span');
+    max_image_span.innerText = 'Max image: ' + max_image;
+    let max_image_button = document.getElementById('max_image_value');
+    while (max_image_button.firstChild) {
+        max_image_button.removeChild(max_image_button.firstChild);
+    }
+    max_image_button.appendChild(max_image_span);
+
+    init_images(do_refresh);
+})

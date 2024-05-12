@@ -3,9 +3,12 @@
 <head>
     <title>Random imgur image</title>
     <link href="uber_style.css" rel="stylesheet" >
+    <link href="scroll_btn_style.css" rel="stylesheet" >
     <link rel="icon" href="./randomImgurFavicon.png"/>
     <script lang="javascript" type="text/javascript" src="script.js" ></script>
-    <script lang="javascript" type="text/javascript" src="build_dom.js"></script>
+    <script lang="javascript" type="text/javascript" src="utils.js"></script>
+    <script lang="javascript" type="text/javascript" src="scrolls.js"></script>
+    <script lang="javascript" type="text/javascript" src="inits.js"></script>
 <body>
     <div id="menu">
         <button id="auto_refresh_button_on" href="#" class="btn" onclick="auto_refresh(true)" style="display: none;">Autorefresh</button>
@@ -13,15 +16,17 @@
         <button href="#" class="btn" onclick="increase_delay()">Increase delay</button>
         <button href="#" class="btn" onclick="decrease_delay()">Decrease delay</button>
         <button href="#" class="btn disabled" id="delay_value" ><span>Delay: 5000</span></button>
-        <button href="#" class="btn" onclick="increase_max_image()">Increase max images</button>
-        <button href="#" class="btn" onclick="decrease_max_image()">Decrease max images</button>
-        <button href="#" class="btn disabled" id="max_image_value" ><span>Max image: </span></button>
+        <button href="#" class="btn" id="increase_max_image">Increase max images</button>
+        <button href="#" class="btn" id="decrease_max_image">Decrease max images</button>
+        <button href="#" class="btn disabled" id="max_image_value" ></button>
     </div>
     <h3 id="debug_text">Random Imgur image <span style="font-size: 12px" id="loading_text_span">Please wait... </span> </h3>
     <div id="img_container"></div>
 
     <!-- Scroll to top button -->
     <div id="scrollToTopBtn" class="scroll-to-top-btn">
+    </div>
+    <div id="scrollToBtmBtn" class="scroll-to-top-btn scroll-to-btm-btn active">
     </div>
 </body>
 </html>

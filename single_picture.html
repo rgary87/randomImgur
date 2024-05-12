@@ -4,11 +4,11 @@
     <title>Random imgur image</title>
     <link href="uber_style.css" rel="stylesheet" >
     <link rel="icon" href="./randomImgurFavicon.png"/>
-    <script lang="javascript" type="text/javascript" src="build_dom.js"></script>
+    <script lang="javascript" type="text/javascript" src="utils.js"></script>
     <style>
         .img_previous_links {
-            max-height: 100%;
-            max-width: 100%;
+            max-height: max-content;
+            max-width: max-content;
             border: none;
         }
         #close {
@@ -28,7 +28,7 @@
             cursor: pointer;
         }
     </style>
-<body>
+<body onclick="window.close()" style="height: 100vh;width: 99vw;">
 
     <div id="close"></div>
 
