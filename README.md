@@ -1,1 +1,1 @@
-Open and wait..?
+Open randomImgur.html and wait..?
